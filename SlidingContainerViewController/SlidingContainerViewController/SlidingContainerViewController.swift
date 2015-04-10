@@ -8,11 +8,23 @@
 
 import UIKit
 
+@objc protocol SlidingContainerViewControllerDelegate {
+    optional func slidingContainerViewControllerDidMoveToViewControllerAtIndex (slidingContainerViewController: SlidingContainerViewController, index: Int)
+    optional func slidingContainerViewControllerDidMoveToViewController (slidingContainerViewController: SlidingContainerViewController, viewController: UIViewController)
+    optional func slidingContainerViewControllerDidHideSliderView (slidingContainerViewController: SlidingContainerViewController)
+    optional func slidingContainerViewControllerDidShowSliderView (slidingContainerViewController: SlidingContainerViewController)
+}
+
 class SlidingContainerViewController: UIViewController, UIScrollViewDelegate, SlidingContainerSliderViewDelegate {
     
     var contentViewControllers: [UIViewController]!
     var contentScrollView: UIScrollView!
+    var titles: [String]!
+    
     var sliderView: SlidingContainerSliderView!
+    var sliderViewShown: Bool = true
+    
+    var delegate: SlidingContainerViewControllerDelegate?
     
     
     // MARK: Init
@@ -20,6 +32,8 @@ class SlidingContainerViewController: UIViewController, UIScrollViewDelegate, Sl
     init (parent: UIViewController, contentViewControllers: [UIViewController], titles: [String]) {
         super.init(nibName: nil, bundle: nil)
         self.contentViewControllers = contentViewControllers
+        self.titles = titles
+        
         
         // Move to parent
         
@@ -95,6 +109,8 @@ class SlidingContainerViewController: UIViewController, UIScrollViewDelegate, Sl
         contentScrollView.setContentOffset(
             CGPoint (x: contentScrollView.frame.size.width * CGFloat(index), y: 0),
             animated: true)
+        
+        navigationController?.navigationItem.title = titles[index]
     }
     
     
@@ -105,9 +121,51 @@ class SlidingContainerViewController: UIViewController, UIScrollViewDelegate, Sl
     }
     
     
+    // MARK: SliderView
+    
+    func hideSlider () {
+        
+        if !sliderViewShown {
+            return
+        }
+        
+        UIView.animateWithDuration(0.3,
+            animations: {
+                [unowned self] in
+                self.sliderView.frame.origin.y += self.parentViewController!.topLayoutGuide.length + self.sliderView.frame.size.height
+            },
+            completion: {
+                [unowned self] finished in
+                self.sliderViewShown = false
+                self.delegate?.slidingContainerViewControllerDidHideSliderView? (self)
+            })
+    }
+    
+    func showSlider () {
+        
+        if sliderViewShown {
+            return
+        }
+        
+        UIView.animateWithDuration(0.3,
+            animations: {
+                [unowned self] in
+                self.sliderView.frame.origin.y -= self.parentViewController!.topLayoutGuide.length + self.sliderView.frame.size.height
+            },
+            completion: {
+                [unowned self] finished in
+                self.sliderViewShown = true
+                self.delegate?.slidingContainerViewControllerDidShowSliderView? (self)
+            })
+    }
+    
+    
     // MARK: UIScrollViewDelegate
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        println (scrollView.panGestureRecognizer.state)
+        
         
         let contentW = contentScrollView.contentSize.width - contentScrollView.frame.size.width
         let sliderW = sliderView.contentSize.width - sliderView.frame.size.width
@@ -123,5 +181,26 @@ class SlidingContainerViewController: UIViewController, UIScrollViewDelegate, Sl
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         let index = scrollView.contentOffset.x / contentScrollView.frame.size.width
         setCurrentViewControllerAtIndex(Int(index))
+    }
+}
+
+extension UIGestureRecognizerState: Printable {
+    public var description: String {
+        get {
+            switch self {
+            case .Began:
+                return "Began"
+            case .Cancelled:
+                return "Cancelled"
+            case .Changed:
+                return "Changed"
+            case .Ended:
+                return "Ended"
+            case .Failed:
+                return "Failed"
+            case .Possible:
+                return "Possible"
+            }
+        }
     }
 }

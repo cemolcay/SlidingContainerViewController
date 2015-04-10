@@ -13,10 +13,10 @@ class DemoViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
-        let vc1 = viewControllerWithColorAndTitle(UIColor.redColor(), title: "First View Controller")
-        let vc2 = viewControllerWithColorAndTitle(UIColor.blueColor(), title: "Second View Controller")
+        let vc1 = viewControllerWithColorAndTitle(UIColor.whiteColor(), title: "First View Controller")
+        let vc2 = viewControllerWithColorAndTitle(UIColor.whiteColor(), title: "Second View Controller")
         let vc3 = viewControllerWithColorAndTitle(UIColor.whiteColor(), title: "Third View Controller")
-        let vc4 = viewControllerWithColorAndTitle(UIColor.yellowColor(), title: "Forth View Controller")
+        let vc4 = viewControllerWithColorAndTitle(UIColor.whiteColor(), title: "Forth View Controller")
         
         let slidingContainerViewController = SlidingContainerViewController (
             parent: self,
