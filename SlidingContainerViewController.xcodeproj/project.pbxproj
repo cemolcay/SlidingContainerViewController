@@ -13,6 +13,9 @@
 		B2F387DE1AD7C5200092872C /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B2F387DD1AD7C5200092872C /* Images.xcassets */; };
 		B2F387E11AD7C5200092872C /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2F387DF1AD7C5200092872C /* LaunchScreen.xib */; };
 		B2F387ED1AD7C5200092872C /* SlidingContainerViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F387EC1AD7C5200092872C /* SlidingContainerViewControllerTests.swift */; };
+		B2F387F81AD7C5470092872C /* SlidingContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F387F71AD7C5470092872C /* SlidingContainerViewController.swift */; };
+		B2F387FA1AD7C58B0092872C /* SlidingContainerSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F387F91AD7C58B0092872C /* SlidingContainerSliderView.swift */; };
+		B2F387FC1AD7CD740092872C /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2F387FB1AD7CD740092872C /* DemoViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +39,9 @@
 		B2F387E61AD7C5200092872C /* SlidingContainerViewControllerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SlidingContainerViewControllerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2F387EB1AD7C5200092872C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2F387EC1AD7C5200092872C /* SlidingContainerViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlidingContainerViewControllerTests.swift; sourceTree = "<group>"; };
+		B2F387F71AD7C5470092872C /* SlidingContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlidingContainerViewController.swift; sourceTree = "<group>"; };
+		B2F387F91AD7C58B0092872C /* SlidingContainerSliderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlidingContainerSliderView.swift; sourceTree = "<group>"; };
+		B2F387FB1AD7CD740092872C /* DemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,7 +83,9 @@
 		B2F387D31AD7C5200092872C /* SlidingContainerViewController */ = {
 			isa = PBXGroup;
 			children = (
+				B2F387F61AD7C5360092872C /* SlidingContainerViewController */,
 				B2F387D61AD7C5200092872C /* AppDelegate.swift */,
+				B2F387FB1AD7CD740092872C /* DemoViewController.swift */,
 				B2F387D81AD7C5200092872C /* ViewController.swift */,
 				B2F387DA1AD7C5200092872C /* Main.storyboard */,
 				B2F387DD1AD7C5200092872C /* Images.xcassets */,
@@ -110,6 +118,15 @@
 				B2F387EB1AD7C5200092872C /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B2F387F61AD7C5360092872C /* SlidingContainerViewController */ = {
+			isa = PBXGroup;
+			children = (
+				B2F387F71AD7C5470092872C /* SlidingContainerViewController.swift */,
+				B2F387F91AD7C58B0092872C /* SlidingContainerSliderView.swift */,
+			);
+			path = SlidingContainerViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -212,8 +229,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2F387FA1AD7C58B0092872C /* SlidingContainerSliderView.swift in Sources */,
+				B2F387F81AD7C5470092872C /* SlidingContainerViewController.swift in Sources */,
 				B2F387D91AD7C5200092872C /* ViewController.swift in Sources */,
 				B2F387D71AD7C5200092872C /* AppDelegate.swift in Sources */,
+				B2F387FC1AD7CD740092872C /* DemoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
