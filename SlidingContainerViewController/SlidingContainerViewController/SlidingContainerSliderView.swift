@@ -24,7 +24,7 @@ struct SlidingContainerSliderViewAppearance {
 }
 
 protocol SlidingContainerSliderViewDelegate {
-    func slidingContainerSliderViewDidPressed (slidingContainerSliderView: SlidingContainerSliderView, atIndex: Int)
+    func slidingContainerSliderViewDidPressed (slidingtContainerSliderView: SlidingContainerSliderView, atIndex: Int)
 }
 
 class SlidingContainerSliderView: UIScrollView, UIScrollViewDelegate {
@@ -37,6 +37,7 @@ class SlidingContainerSliderView: UIScrollView, UIScrollViewDelegate {
         }
     }
     
+    var shouldSlide: Bool = true
     
     let sliderHeight: CGFloat = 44
     var titles: [String]!
@@ -45,7 +46,7 @@ class SlidingContainerSliderView: UIScrollView, UIScrollViewDelegate {
     var selector: UIView!
 
     var sliderDelegate: SlidingContainerSliderViewDelegate?
-    
+
     
     // MARK: Init
     

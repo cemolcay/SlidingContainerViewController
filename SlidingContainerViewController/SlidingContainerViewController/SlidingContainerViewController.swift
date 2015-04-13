@@ -117,6 +117,7 @@ class SlidingContainerViewController: UIViewController, UIScrollViewDelegate, Sl
     // MARK: SlidingContainerSliderViewDelegate
     
     func slidingContainerSliderViewDidPressed(slidingContainerSliderView: SlidingContainerSliderView, atIndex: Int) {
+        sliderView.shouldSlide = false
         setCurrentViewControllerAtIndex(atIndex)
     }
     
@@ -164,8 +165,9 @@ class SlidingContainerViewController: UIViewController, UIScrollViewDelegate, Sl
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
-        println (scrollView.panGestureRecognizer.state)
-        
+        if scrollView.panGestureRecognizer.state == .Began {
+            sliderView.shouldSlide = true
+        }
         
         let contentW = contentScrollView.contentSize.width - contentScrollView.frame.size.width
         let sliderW = sliderView.contentSize.width - sliderView.frame.size.width
@@ -173,7 +175,7 @@ class SlidingContainerViewController: UIViewController, UIScrollViewDelegate, Sl
         let current = contentScrollView.contentOffset.x
         let ratio = current / contentW
         
-        if sliderView.contentSize.width > sliderView.frame.size.width {
+        if sliderView.contentSize.width > sliderView.frame.size.width && sliderView.shouldSlide == true {
             sliderView.contentOffset = CGPoint (x: sliderW * ratio, y: 0)
         }
     }
