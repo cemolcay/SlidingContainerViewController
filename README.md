@@ -7,7 +7,7 @@ An [android scrollable tab bar](http://developer.android.com/design/building-blo
 Demo 
 ----
 
-![alt tag]()
+![alt tag](https://raw.githubusercontent.com/cemolcay/SlidingContainerViewController/master/demo.gif)
 
 
 Install
