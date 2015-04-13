@@ -8,8 +8,16 @@
 
 import UIKit
 
-class DemoViewController: UIViewController {
+class DemoViewController: UIViewController, SlidingContainerViewControllerDelegate {
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        navigationItem.title = "Demo"
+        navigationController?.navigationBar.titleTextAttributes = [
+            NSFontAttributeName: UIFont(name: "HelveticaNeue-Light", size: 20)!
+        ]
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 
@@ -22,8 +30,12 @@ class DemoViewController: UIViewController {
             parent: self,
             contentViewControllers: [vc1, vc2, vc3, vc4],
             titles: ["First", "Second", "Third", "Forth"])
-        slidingContainerViewController.setCurrentViewControllerAtIndex(1)
+        
         view.addSubview(slidingContainerViewController.view)
+        
+        slidingContainerViewController.sliderView.appearance.outerPadding = 0
+        slidingContainerViewController.sliderView.appearance.innerPadding = 50
+        slidingContainerViewController.setCurrentViewControllerAtIndex(0)
     }
     
     func viewControllerWithColorAndTitle (color: UIColor, title: String) -> UIViewController {
@@ -36,9 +48,30 @@ class DemoViewController: UIViewController {
         label.textAlignment = .Center
         label.font = UIFont (name: "HelveticaNeue-Light", size: 25)
         label.text = title
+        label.sizeToFit()
+        label.center = view.center
         vc.view.addSubview(label)
         
         return vc
+    }
+    
+    
+    // MARK: SlidingContainerViewControllerDelegate
+    
+    func slidingContainerViewControllerDidShowSliderView(slidingContainerViewController: SlidingContainerViewController) {
+        
+    }
+    
+    func slidingContainerViewControllerDidHideSliderView(slidingContainerViewController: SlidingContainerViewController) {
+        
+    }
+    
+    func slidingContainerViewControllerDidMoveToViewController(slidingContainerViewController: SlidingContainerViewController, viewController: UIViewController) {
+        
+    }
+    
+    func slidingContainerViewControllerDidMoveToViewControllerAtIndex(slidingContainerViewController: SlidingContainerViewController, index: Int) {
+        
     }
 
 }

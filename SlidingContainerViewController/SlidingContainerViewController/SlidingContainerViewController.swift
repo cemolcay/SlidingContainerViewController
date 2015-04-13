@@ -73,6 +73,11 @@ class SlidingContainerViewController: UIViewController, UIScrollViewDelegate, Sl
             
             currentX += contentScrollView.frame.size.width
         }
+        
+        
+        // Move First Item
+        
+        setCurrentViewControllerAtIndex(0)
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -95,10 +100,16 @@ class SlidingContainerViewController: UIViewController, UIScrollViewDelegate, Sl
             let vc = contentViewControllers[i]
             
             if i == index {
+                
                 vc.willMoveToParentViewController(self)
                 addChildViewController(vc)
                 vc.didMoveToParentViewController(self)
+                
+                delegate?.slidingContainerViewControllerDidMoveToViewControllerAtIndex? (self, index: index)
+                delegate?.slidingContainerViewControllerDidMoveToViewController? (self, viewController: vc)
+                
             } else {
+    
                 vc.willMoveToParentViewController(self)
                 vc.removeFromParentViewController()
                 vc.didMoveToParentViewController(self)
