@@ -42,8 +42,7 @@ SlidingContainerViewControllerDelegate
 
 ``` swift
 @objc protocol SlidingContainerViewControllerDelegate {
-    optional func slidingContainerViewControllerDidMoveToViewControllerAtIndex (slidingContainerViewController: SlidingContainerViewController, index: Int)
-    optional func slidingContainerViewControllerDidMoveToViewController (slidingContainerViewController: SlidingContainerViewController, viewController: UIViewController)
+    optional func slidingContainerViewControllerDidMoveToViewController (slidingContainerViewController: SlidingContainerViewController, viewController: UIViewController, atIndex: Int)
     optional func slidingContainerViewControllerDidHideSliderView (slidingContainerViewController: SlidingContainerViewController)
     optional func slidingContainerViewControllerDidShowSliderView (slidingContainerViewController: SlidingContainerViewController)
 }

@@ -48,7 +48,7 @@ class SlidingContainerSliderView: UIScrollView, UIScrollViewDelegate {
     var selector: UIView!
 
     var sliderDelegate: SlidingContainerSliderViewDelegate?
-
+    
     
     // MARK: Init
     
@@ -59,6 +59,7 @@ class SlidingContainerSliderView: UIScrollView, UIScrollViewDelegate {
         delegate = self
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = false
+        scrollsToTop = false
         
         appearance = SlidingContainerSliderViewAppearance (
             backgroundColor: UIColor(white: 0, alpha: 0.3),

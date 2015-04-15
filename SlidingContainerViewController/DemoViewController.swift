@@ -48,8 +48,10 @@ class DemoViewController: UIViewController, SlidingContainerViewControllerDelega
         label.textAlignment = .Center
         label.font = UIFont (name: "HelveticaNeue-Light", size: 25)
         label.text = title
+        
         label.sizeToFit()
         label.center = view.center
+        
         vc.view.addSubview(label)
         
         return vc

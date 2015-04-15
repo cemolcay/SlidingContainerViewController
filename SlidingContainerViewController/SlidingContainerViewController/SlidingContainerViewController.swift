@@ -9,8 +9,7 @@
 import UIKit
 
 @objc protocol SlidingContainerViewControllerDelegate {
-    optional func slidingContainerViewControllerDidMoveToViewControllerAtIndex (slidingContainerViewController: SlidingContainerViewController, index: Int)
-    optional func slidingContainerViewControllerDidMoveToViewController (slidingContainerViewController: SlidingContainerViewController, viewController: UIViewController)
+    optional func slidingContainerViewControllerDidMoveToViewController (slidingContainerViewController: SlidingContainerViewController, viewController: UIViewController, atIndex: Int)
     optional func slidingContainerViewControllerDidHideSliderView (slidingContainerViewController: SlidingContainerViewController)
     optional func slidingContainerViewControllerDidShowSliderView (slidingContainerViewController: SlidingContainerViewController)
 }
@@ -105,9 +104,7 @@ class SlidingContainerViewController: UIViewController, UIScrollViewDelegate, Sl
                 addChildViewController(vc)
                 vc.didMoveToParentViewController(self)
                 
-                delegate?.slidingContainerViewControllerDidMoveToViewControllerAtIndex? (self, index: index)
-                delegate?.slidingContainerViewControllerDidMoveToViewController? (self, viewController: vc)
-                
+                delegate?.slidingContainerViewControllerDidMoveToViewController? (self, viewController: vc, atIndex: index)
             } else {
     
                 vc.willMoveToParentViewController(self)
