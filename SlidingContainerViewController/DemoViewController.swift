@@ -18,13 +18,13 @@ class DemoViewController: UIViewController, SlidingContainerViewControllerDelega
         ]
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        let vc1 = viewControllerWithColorAndTitle(UIColor.whiteColor(), title: "First View Controller")
-        let vc2 = viewControllerWithColorAndTitle(UIColor.whiteColor(), title: "Second View Controller")
-        let vc3 = viewControllerWithColorAndTitle(UIColor.whiteColor(), title: "Third View Controller")
-        let vc4 = viewControllerWithColorAndTitle(UIColor.whiteColor(), title: "Forth View Controller")
+        let vc1 = viewControllerWithColorAndTitle(UIColor.white, title: "First View Controller")
+        let vc2 = viewControllerWithColorAndTitle(UIColor.white, title: "Second View Controller")
+        let vc3 = viewControllerWithColorAndTitle(UIColor.white, title: "Third View Controller")
+        let vc4 = viewControllerWithColorAndTitle(UIColor.white, title: "Forth View Controller")
         
         let slidingContainerViewController = SlidingContainerViewController (
             parent: self,
@@ -35,17 +35,18 @@ class DemoViewController: UIViewController, SlidingContainerViewControllerDelega
         
         slidingContainerViewController.sliderView.appearance.outerPadding = 0
         slidingContainerViewController.sliderView.appearance.innerPadding = 50
+        slidingContainerViewController.sliderView.appearance.fixedWidth = true
         slidingContainerViewController.setCurrentViewControllerAtIndex(0)
     }
     
-    func viewControllerWithColorAndTitle (color: UIColor, title: String) -> UIViewController {
+    func viewControllerWithColorAndTitle (_ color: UIColor, title: String) -> UIViewController {
         
         let vc = UIViewController ()
         vc.view.backgroundColor = color
         
         let label = UILabel (frame: vc.view.frame)
-        label.textColor = UIColor.blackColor()
-        label.textAlignment = .Center
+        label.textColor = UIColor.black
+        label.textAlignment = .center
         label.font = UIFont (name: "HelveticaNeue-Light", size: 25)
         label.text = title
         
@@ -60,19 +61,19 @@ class DemoViewController: UIViewController, SlidingContainerViewControllerDelega
     
     // MARK: SlidingContainerViewControllerDelegate
     
-    func slidingContainerViewControllerDidShowSliderView(slidingContainerViewController: SlidingContainerViewController) {
+    func slidingContainerViewControllerDidShowSliderView(_ slidingContainerViewController: SlidingContainerViewController) {
         
     }
     
-    func slidingContainerViewControllerDidHideSliderView(slidingContainerViewController: SlidingContainerViewController) {
+    func slidingContainerViewControllerDidHideSliderView(_ slidingContainerViewController: SlidingContainerViewController) {
         
     }
     
-    func slidingContainerViewControllerDidMoveToViewController(slidingContainerViewController: SlidingContainerViewController, viewController: UIViewController) {
+    func slidingContainerViewControllerDidMoveToViewController(_ slidingContainerViewController: SlidingContainerViewController, viewController: UIViewController) {
         
     }
     
-    func slidingContainerViewControllerDidMoveToViewControllerAtIndex(slidingContainerViewController: SlidingContainerViewController, index: Int) {
+    func slidingContainerViewControllerDidMoveToViewControllerAtIndex(_ slidingContainerViewController: SlidingContainerViewController, index: Int) {
         
     }
 

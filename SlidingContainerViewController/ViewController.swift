@@ -19,8 +19,8 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         smallSlider = UIScrollView (frame: CGRect (x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height/2))
         bigSlider = UIScrollView (frame: CGRect (x: 0, y: smallSlider.frame.size.height, width: view.frame.size.width, height: view.frame.size.height/2))
         
-        smallSlider.backgroundColor = UIColor.redColor()
-        bigSlider.backgroundColor = UIColor.yellowColor()
+        smallSlider.backgroundColor = UIColor.red
+        bigSlider.backgroundColor = UIColor.yellow
         
         smallSlider.contentSize = CGSize (width: 1000, height: smallSlider.frame.size.height)
         bigSlider.contentSize = CGSize (width: 500, height: bigSlider.frame.size.height)
@@ -33,7 +33,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         
         let gradient = CAGradientLayer()
         gradient.frame = CGRect (x: 0, y: 0, width: smallSlider.contentSize.width, height: smallSlider.frame.height)
-        gradient.colors = [UIColor.whiteColor().CGColor, UIColor.blackColor().CGColor]
+        gradient.colors = [UIColor.white.cgColor, UIColor.black.cgColor]
         gradient.locations = [0, 1]
         gradient.startPoint = CGPoint(x: 0.0, y: 1.0)
         gradient.endPoint = CGPoint(x: 1.0, y: 1.0)
@@ -42,7 +42,7 @@ class ViewController: UIViewController, UIScrollViewDelegate {
         smallSlider.bounces = false
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         if scrollView == bigSlider {
             
