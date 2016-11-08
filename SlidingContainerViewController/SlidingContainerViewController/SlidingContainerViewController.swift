@@ -1,3 +1,4 @@
+
 //
 //  SlidingContainerViewController.swift
 //  SlidingContainerViewController
@@ -9,9 +10,9 @@
 import UIKit
 
 @objc protocol SlidingContainerViewControllerDelegate {
-    optional func slidingContainerViewControllerDidMoveToViewController (slidingContainerViewController: SlidingContainerViewController, viewController: UIViewController, atIndex: Int)
-    optional func slidingContainerViewControllerDidHideSliderView (slidingContainerViewController: SlidingContainerViewController)
-    optional func slidingContainerViewControllerDidShowSliderView (slidingContainerViewController: SlidingContainerViewController)
+    @objc optional func slidingContainerViewControllerDidMoveToViewController (_ slidingContainerViewController: SlidingContainerViewController, viewController: UIViewController, atIndex: Int)
+    @objc optional func slidingContainerViewControllerDidHideSliderView (_ slidingContainerViewController: SlidingContainerViewController)
+    @objc optional func slidingContainerViewControllerDidShowSliderView (_ slidingContainerViewController: SlidingContainerViewController)
 }
 
 class SlidingContainerViewController: UIViewController, UIScrollViewDelegate, SlidingContainerSliderViewDelegate {
@@ -36,9 +37,9 @@ class SlidingContainerViewController: UIViewController, UIScrollViewDelegate, Sl
         
         // Move to parent
         
-        willMoveToParentViewController(parent)
+        willMove(toParentViewController: parent)
         parent.addChildViewController(self)
-        didMoveToParentViewController(parent)
+        didMove(toParentViewController: parent)
         
         
         // Setup Views
@@ -50,7 +51,7 @@ class SlidingContainerViewController: UIViewController, UIScrollViewDelegate, Sl
         contentScrollView = UIScrollView (frame: view.frame)
         contentScrollView.showsHorizontalScrollIndicator = false
         contentScrollView.showsVerticalScrollIndicator = false
-        contentScrollView.pagingEnabled = true
+        contentScrollView.isPagingEnabled = true
         contentScrollView.scrollsToTop = false
         contentScrollView.delegate = self
         contentScrollView.contentSize.width = contentScrollView.frame.size.width * CGFloat(contentViewControllers.count)
@@ -80,7 +81,7 @@ class SlidingContainerViewController: UIViewController, UIScrollViewDelegate, Sl
     }
     
     required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        super.init(coder: aDecoder)!
     }
     
     
@@ -93,23 +94,23 @@ class SlidingContainerViewController: UIViewController, UIScrollViewDelegate, Sl
     
     // MARK: ChildViewController Management
     
-    func setCurrentViewControllerAtIndex (index: Int) {
+    func setCurrentViewControllerAtIndex (_ index: Int) {
     
         for i in 0..<self.contentViewControllers.count {
             let vc = contentViewControllers[i]
             
             if i == index {
                 
-                vc.willMoveToParentViewController(self)
+                vc.willMove(toParentViewController: self)
                 addChildViewController(vc)
-                vc.didMoveToParentViewController(self)
+                vc.didMove(toParentViewController: self)
                 
                 delegate?.slidingContainerViewControllerDidMoveToViewController? (self, viewController: vc, atIndex: index)
             } else {
     
-                vc.willMoveToParentViewController(self)
+                vc.willMove(toParentViewController: self)
                 vc.removeFromParentViewController()
-                vc.didMoveToParentViewController(self)
+                vc.didMove(toParentViewController: self)
             }
         }
         
@@ -124,7 +125,7 @@ class SlidingContainerViewController: UIViewController, UIScrollViewDelegate, Sl
     
     // MARK: SlidingContainerSliderViewDelegate
     
-    func slidingContainerSliderViewDidPressed(slidingContainerSliderView: SlidingContainerSliderView, atIndex: Int) {
+    func slidingContainerSliderViewDidPressed(_ slidingContainerSliderView: SlidingContainerSliderView, atIndex: Int) {
         sliderView.shouldSlide = false
         setCurrentViewControllerAtIndex(atIndex)
     }
@@ -138,10 +139,10 @@ class SlidingContainerViewController: UIViewController, UIScrollViewDelegate, Sl
             return
         }
         
-        UIView.animateWithDuration(0.3,
+        UIView.animate(withDuration: 0.3,
             animations: {
                 [unowned self] in
-                self.sliderView.frame.origin.y += self.parentViewController!.topLayoutGuide.length + self.sliderView.frame.size.height
+                self.sliderView.frame.origin.y += self.parent!.topLayoutGuide.length + self.sliderView.frame.size.height
             },
             completion: {
                 [unowned self] finished in
@@ -156,10 +157,10 @@ class SlidingContainerViewController: UIViewController, UIScrollViewDelegate, Sl
             return
         }
         
-        UIView.animateWithDuration(0.3,
+        UIView.animate(withDuration: 0.3,
             animations: {
                 [unowned self] in
-                self.sliderView.frame.origin.y -= self.parentViewController!.topLayoutGuide.length + self.sliderView.frame.size.height
+                self.sliderView.frame.origin.y -= self.parent!.topLayoutGuide.length + self.sliderView.frame.size.height
             },
             completion: {
                 [unowned self] finished in
@@ -171,9 +172,9 @@ class SlidingContainerViewController: UIViewController, UIScrollViewDelegate, Sl
     
     // MARK: UIScrollViewDelegate
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
-        if scrollView.panGestureRecognizer.state == .Began {
+        if scrollView.panGestureRecognizer.state == .began {
             sliderView.shouldSlide = true
         }
         
@@ -188,27 +189,27 @@ class SlidingContainerViewController: UIViewController, UIScrollViewDelegate, Sl
         }
     }
 
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let index = scrollView.contentOffset.x / contentScrollView.frame.size.width
         setCurrentViewControllerAtIndex(Int(index))
     }
 }
 
-extension UIGestureRecognizerState: Printable {
+extension UIGestureRecognizerState {
     public var description: String {
         get {
             switch self {
-            case .Began:
+            case .began:
                 return "Began"
-            case .Cancelled:
+            case .cancelled:
                 return "Cancelled"
-            case .Changed:
+            case .changed:
                 return "Changed"
-            case .Ended:
+            case .ended:
                 return "Ended"
-            case .Failed:
+            case .failed:
                 return "Failed"
-            case .Possible:
+            case .possible:
                 return "Possible"
             }
         }

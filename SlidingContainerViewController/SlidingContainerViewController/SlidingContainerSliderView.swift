@@ -23,10 +23,12 @@ struct SlidingContainerSliderViewAppearance {
     
     var selectorColor: UIColor
     var selectorHeight: CGFloat
+    
+    var fixedWidth: Bool
 }
 
 protocol SlidingContainerSliderViewDelegate {
-    func slidingContainerSliderViewDidPressed (slidingtContainerSliderView: SlidingContainerSliderView, atIndex: Int)
+    func slidingContainerSliderViewDidPressed (_ slidingtContainerSliderView: SlidingContainerSliderView, atIndex: Int)
 }
 
 class SlidingContainerSliderView: UIScrollView, UIScrollViewDelegate {
@@ -65,22 +67,23 @@ class SlidingContainerSliderView: UIScrollView, UIScrollViewDelegate {
             backgroundColor: UIColor(white: 0, alpha: 0.3),
             
             font: UIFont (name: "HelveticaNeue-Light", size: 15)!,
-            selectedFont: UIFont.systemFontOfSize(15),
+            selectedFont: UIFont.systemFont(ofSize: 15),
             
-            textColor: UIColor.darkGrayColor(),
-            selectedTextColor: UIColor.whiteColor(),
+            textColor: UIColor.darkGray,
+            selectedTextColor: UIColor.white,
             
             outerPadding: 10,
             innerPadding: 10,
             
-            selectorColor: UIColor.redColor(),
-            selectorHeight: 5)
+            selectorColor: UIColor.red,
+            selectorHeight: 5,
+            fixedWidth: false)
         
         draw()
     }
     
     required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        super.init(coder: aDecoder)!
     }
 
     
@@ -104,41 +107,67 @@ class SlidingContainerSliderView: UIScrollView, UIScrollViewDelegate {
         labels = []
         backgroundColor = appearance.backgroundColor
         
-        var labelTag = 0
-        var currentX = appearance.outerPadding
-        
-        for title in titles {
-            let label = labelWithTitle(title)
-            label.frame.origin.x = currentX
-            label.center.y = frame.size.height/2
-            label.tag = labelTag++
+        if appearance.fixedWidth {
+            var labelTag = 0
+            let width = CGFloat(frame.size.width) / CGFloat(titles.count)
             
-            addSubview(label)
-            labels.append(label)
-            currentX += label.frame.size.width + appearance.outerPadding
+            for title in titles {
+                let label = labelWithTitle(title)
+                label.frame.origin.x = (width * CGFloat(labelTag))
+                label.frame.size = CGSize(width: width, height: label.frame.size.height)
+                label.center.y = frame.size.height/2
+                labelTag += 1
+                label.tag = labelTag
+                
+                addSubview(label)
+                labels.append(label)
+            }
+            
+            let selectorH = appearance.selectorHeight
+            selector = UIView (frame: CGRect (x: 0, y: frame.size.height - selectorH, width: width, height: selectorH))
+            selector.backgroundColor = appearance.selectorColor
+            addSubview(selector)
+            
+            contentSize = CGSize (width: frame.size.width, height: frame.size.height)
+        } else {
+            var labelTag = 0
+            var currentX = appearance.outerPadding
+            
+            for title in titles {
+                let label = labelWithTitle(title)
+                label.frame.origin.x = currentX
+                label.center.y = frame.size.height/2
+                labelTag += 1
+                label.tag = labelTag
+                
+                addSubview(label)
+                labels.append(label)
+                currentX += label.frame.size.width + appearance.outerPadding
+            }
+            
+            let selectorH = appearance.selectorHeight
+            selector = UIView (frame: CGRect (x: 0, y: frame.size.height - selectorH, width: 100, height: selectorH))
+            selector.backgroundColor = appearance.selectorColor
+            addSubview(selector)
+            
+            contentSize = CGSize (width: currentX, height: frame.size.height)
         }
         
-        let selectorH = appearance.selectorHeight
-        selector = UIView (frame: CGRect (x: 0, y: frame.size.height - selectorH, width: 100, height: selectorH))
-        selector.backgroundColor = appearance.selectorColor
-        addSubview(selector)
-        
-        contentSize = CGSize (width: currentX, height: frame.size.height)
     }
     
-    func labelWithTitle (title: String) -> UILabel {
+    func labelWithTitle (_ title: String) -> UILabel {
         
         let label = UILabel (frame: CGRect (x: 0, y: 0, width: 0, height: 0))
         label.text = title
         label.font = appearance.font
         label.textColor = appearance.textColor
-        label.textAlignment = .Center
+        label.textAlignment = .center
 
         label.sizeToFit()
         label.frame.size.width += appearance.innerPadding * 2
         
-        label.addGestureRecognizer(UITapGestureRecognizer (target: self, action: "didTap:"))
-        label.userInteractionEnabled = true
+        label.addGestureRecognizer(UITapGestureRecognizer (target: self, action: #selector(SlidingContainerSliderView.didTap(_:))))
+        label.isUserInteractionEnabled = true
         
         return label
     }
@@ -146,14 +175,14 @@ class SlidingContainerSliderView: UIScrollView, UIScrollViewDelegate {
     
     // MARK: Actions
     
-    func didTap (tap: UITapGestureRecognizer) {
-        self.sliderDelegate?.slidingContainerSliderViewDidPressed(self, atIndex: tap.view!.tag)
+    func didTap (_ tap: UITapGestureRecognizer) {
+        self.sliderDelegate?.slidingContainerSliderViewDidPressed(self, atIndex: tap.view!.tag - 1)
     }
     
     
     // MARK: Menu
     
-    func selectItemAtIndex (index: Int) {
+    func selectItemAtIndex (_ index: Int) {
         
         // Set Labels
         
@@ -165,12 +194,14 @@ class SlidingContainerSliderView: UIScrollView, UIScrollViewDelegate {
                 label.textColor = appearance.selectorColor
                 label.font = appearance.selectedFont
                 
-                label.sizeToFit()
-                label.frame.size.width += appearance.innerPadding * 2
+                if !appearance.fixedWidth {
+                    label.sizeToFit()
+                    label.frame.size.width += appearance.innerPadding * 2
+                }
 
                 // Set selector
                 
-                UIView.animateWithDuration(0.3, animations: {
+                UIView.animate(withDuration: 0.3, animations: {
                     [unowned self] in
                     self.selector.frame = CGRect (
                         x: label.frame.origin.x,
@@ -183,9 +214,10 @@ class SlidingContainerSliderView: UIScrollView, UIScrollViewDelegate {
                 
                 label.textColor = appearance.textColor
                 label.font = appearance.font
-                
-                label.sizeToFit()
-                label.frame.size.width += appearance.innerPadding * 2
+                if !appearance.fixedWidth {
+                    label.sizeToFit()
+                    label.frame.size.width += appearance.innerPadding * 2
+                }
             }
         }
     }
