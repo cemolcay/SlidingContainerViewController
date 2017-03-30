@@ -163,7 +163,7 @@ public class SlidingContainerSliderView: UIScrollView, UIScrollViewDelegate {
 
       if i == index {
 
-        label.textColor = appearance.selectorColor
+        label.textColor = appearance.selectedTextColor
         label.font = appearance.selectedFont
 
         if !appearance.fixedWidth {
