@@ -1,7 +1,7 @@
 SlidingContainerViewController
 ==============================
 
-An [android scrollable tab bar](http://developer.android.com/design/building-blocks/tabs.html#scrollable) style container view controller
+An [Android scrollable tab bar](http://developer.android.com/design/building-blocks/tabs.html#scrollable) style container view controller
 
 
 Demo
@@ -19,7 +19,7 @@ Copy & paste `Source` folder to your project
 
 #### Cocoapods
 
-```
+``` ruby
 use_frameworks!
 pod 'SlidingContainerViewController'
 ```
