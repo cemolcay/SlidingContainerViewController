@@ -97,9 +97,11 @@ public class SlidingContainerViewController: UIViewController, UIScrollViewDeleg
     }
 
     sliderView.selectItemAtIndex(index)
-    contentScrollView.setContentOffset(
-      CGPoint (x: contentScrollView.frame.size.width * CGFloat(index), y: 0),
-      animated: true)
+    
+    var offset = contentScrollView.contentOffset
+    offset.x = contentScrollView.frame.size.width * CGFloat(index)
+    contentScrollView.setContentOffset( offset,
+                                        animated: true)
 
     navigationController?.navigationItem.title = titles[index]
   }
